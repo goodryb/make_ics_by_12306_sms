@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os
+import sys
 import re
 from datetime import datetime
 import pytz
@@ -163,8 +164,14 @@ def get_12306_ROWID():
 
 if __name__ == "__main__":
     # t = u"订单E11053xxxx,XXX您已购4月24日G7609次x车xF号南京南13:57开,检票口B11。【铁路客服】"
-    ROWID = get_12306_ROWID()
-    t = get_messages_for_recipient(ROWID)
+    if len(sys.argv) == 2:
+        t = unicode(sys.argv[1], "utf-8")
+    if len(sys.argv) == 1:
+        ROWID = get_12306_ROWID()
+        t = get_messages_for_recipient(ROWID)
+    if len(sys.argv) > 2:
+        print u"参数有误！"
+        sys.exit(1)
     print u"订单信息：" + t
     make_ics(t)
     os.system('open /tmp/cal.ics')
