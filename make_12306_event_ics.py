@@ -10,6 +10,10 @@ from bs4 import BeautifulSoup
 from icalendar import Calendar, Event
 import sqlite3
 
+# 全局设定
+# 经常去的站点可以设置在这里，如果目的地中包含这些站点，会自动选中
+default_station = [u"杭州东", u"上海虹桥", u"杭州"]
+
 
 def get_travel(t):
     dcc = []
@@ -52,12 +56,27 @@ def get_travel(t):
 
     k = 0  # 初始化显示站点序列号
 
+    # 设置常用的目的地
+    default_to_station_index = 0
+    default_to_station_name = ""
+
     for i in dcc:
         if k > start_station_index:
             print str(k) + u"：" + i["name"]
+            if i["name"] in default_station:
+                default_to_station_index = k
+                default_to_station_name = i["name"]
         k += 1
 
     # 到达站序号
+    # 自动设置到达站
+    if default_to_station_index > 0:
+        print u"回车确认到达 " + default_to_station_name + u"站"
+        to_station_index = raw_input()
+        if not to_station_index:
+            to_station_index = default_to_station_index
+            return start_station_index, to_station_index, dcc
+
     to_station_index = int(raw_input())
     while to_station_index > len(dcc) - 1 or to_station_index <= start_station_index:
         print u"目的地选择有误，请重新选择"
@@ -118,8 +137,9 @@ def make_ics(t):
     event.add('dtstart',
               datetime(int(year), int(month), int(day), int(start_time.split(":")[0]), int(start_time.split(":")[1]), 0,
                        tzinfo=pytz.timezone("Asia/Shanghai")))
-    event.add('dtend', datetime(int(year), int(month), int(day), int(end_time.split(":")[0]), int(end_time.split(":")[1]), 0,
-                                tzinfo=pytz.timezone("Asia/Shanghai")))
+    event.add('dtend',
+              datetime(int(year), int(month), int(day), int(end_time.split(":")[0]), int(end_time.split(":")[1]), 0,
+                       tzinfo=pytz.timezone("Asia/Shanghai")))
     event.add('summary', start_station_name + u'-' + to_station_name + str(cost_hour) + u"小时" + str(cost_mins) + u"分")
     event.add('LOCATION', cc + u" " + zc)
     event.add('DESCRIPTION', t)
