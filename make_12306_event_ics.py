@@ -17,8 +17,10 @@ default_station = [u"杭州东", u"上海虹桥", u"杭州"]
 
 def get_travel(t):
     dcc = []
-
+    print t
     m_c = re.compile(ur"\w\d*次").search(t)  # 查找车次信息
+
+    # print str(m_c.group(0)[:-1])
 
     # 获取车次网页信息
     url = "http://search.huochepiao.com/checi/" + str(m_c.group(0)[:-1])
@@ -33,7 +35,7 @@ def get_travel(t):
     for row in table.findAll("tr"):
         tmp = {}
         cells = row.findAll(td_th)
-        if len(cells) == 12:
+        if len(cells) == 12 or len(cells) == 13:
             tmp["name"] = cells[2].find(text=True)
             tmp["end"] = cells[3].find(text=True)
             tmp["start"] = cells[4].find(text=True)
@@ -44,9 +46,7 @@ def get_travel(t):
     start_station_name = ""  # 出发站名称
     # print dcc
     for i in dcc:
-
         m = re.compile(i["name"]).search(t)
-
         if m:
             start_station_name = m.group(0)
             start_station_index = dcc.index(i)
