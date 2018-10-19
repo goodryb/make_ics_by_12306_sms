@@ -23,3 +23,11 @@ chmod +x make_12306_event_ics.py
 ```
 ./make_12306_event_ics.py "订单E11053xxxx,XXX您已购4月24日G7609次x车xF号XXX13:57开,检票口B11。【铁路客服】"
 ```
+
+## 注意事项
+
+如果升级到macOS Mojave后发现脚本无法读取chat.db，需要在隐私设置里面添加对应程序完全磁盘访问权限
+
+例如，一般是在命令行执行脚本，使用的终端工具为iTerm，则需要在隐私设置里面添加iTerm，其它工具访问类似
+
+![](https://ws2.sinaimg.cn/large/5d63d06fly1fwdct2esvxj212q0v6k09.jpg)
