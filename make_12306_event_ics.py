@@ -17,7 +17,7 @@ default_station = [u"杭州东", u"上海虹桥", u"杭州"]
 
 def get_travel(t):
     dcc = []
-    print t
+    # print t
     m_c = re.compile(ur"\w\d*次").search(t)  # 查找车次信息
 
     # print str(m_c.group(0)[:-1])
@@ -76,6 +76,8 @@ def get_travel(t):
         if not to_station_index:
             to_station_index = default_to_station_index
             return start_station_index, to_station_index, dcc
+        else:
+            return start_station_index, int(to_station_index), dcc
 
     to_station_index = int(raw_input())
     while to_station_index > len(dcc) - 1 or to_station_index <= start_station_index:
