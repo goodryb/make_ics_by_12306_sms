@@ -118,7 +118,7 @@ def get_info(t):
     to_station_name = dcc[e]["name"]
     cost_hour, cost_mins = get_costs(s, e, dcc)
     cc = re.compile(ur"\w\d*次").search(t).group(0)[:-1]
-    zc = re.compile(ur"\d*车\d*\w号").search(t).group(0)
+    zc = re.compile(ur"\d*车\d*\w").search(t).group(0)
     day = re.compile(ur"\d*日").search(t).group(0)[:-1]
     month = re.compile(ur"\d*月").search(t).group(0)[:-1]
     start_time = dcc[s]["start"]
