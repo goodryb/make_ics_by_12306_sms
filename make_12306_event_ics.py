@@ -143,7 +143,7 @@ def make_ics(t):
               datetime(int(year), int(month), int(day), int(end_time.split(":")[0]), int(end_time.split(":")[1]), 0,
                        tzinfo=pytz.timezone("Asia/Shanghai")))
     event.add('summary', start_station_name + u'-' + to_station_name + str(cost_hour) + u"小时" + str(cost_mins) + u"分")
-    event.add('LOCATION', cc + u" " + zc)
+    event.add('LOCATION', start_station_name + u"站")
     event.add('DESCRIPTION', t)
     cal.add_component(event)
     f = open(os.path.join('/tmp', 'cal.ics'), 'wb')
